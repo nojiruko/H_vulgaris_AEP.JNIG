@@ -1,4 +1,4 @@
-# Spurious Transcription / Exon coverage analysis
+# Spurious Transcription.md
 
 This repository contains a pipeline to:
 
