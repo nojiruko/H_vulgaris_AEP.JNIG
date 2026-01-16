@@ -13,7 +13,7 @@ This repository contains step-by-step descriptions of all analyses and associate
 ## Structure and purpose of this repository
 
 This repository provides **markdown documents** that describe each computational component of the analyses presented in the manuscript.  
-Each markdown document contains all code used for the corresponding analysis, along with explanatory text describing the purpose and rationale of the code.
+Each markdown document contains all code used for the corresponding analysis, along with explanatory text describing the purpose of the code.
 
 In addition, each markdown document is accompanied by a corresponding folder containing:
 
