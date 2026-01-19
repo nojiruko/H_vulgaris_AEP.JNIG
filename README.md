@@ -17,13 +17,13 @@ Each markdown document includes all code used for the corresponding analysis, al
 
 Specifically, the following markdown documents　contain scripts to reproduce the figures and tables reported in the manuscript:
 
-- **Orthofinder.md**: Fig. 4, Fig. 5, Supplementary Table 3, Supplementary Table 4, Supplementary Table 5, Supplementary Table 6, Supplementary Fig. 4, Supplementary Fig. 5  
-- **plotsr.md**: Fig. 2D, Supplementary Fig. 2A  
-- **quarTeT.md**: Fig. 2D (annotation track), Fig. 3A (centromere track)  
+- **genespace.md**: Fig. 2C
+- **plotsr.md**: Fig. 2D, Supplementary Fig. 2A 
+- **Earlgrey.md**: Table 5, Table 6, Supplementary Fig. 2B, Supplementary Fig. 2C
+- **quarTeT.md**: Fig. 2D (annotation track), Fig. 3A (centromere track)
 - **5mC.md**: Fig. 3A–F, Supplementary Fig. 3  
-- **Earlgrey.md**: Table 5, Table 6, Supplementary Fig. 2B, Supplementary Fig. 2C  
-- **genespace.md**: Fig. 2C  
-- **sprious_transcription.md**: Fig. 3G  
+- **sprious_transcription.md**: Fig. 3G
+- **Orthofinder.md**: Fig. 4, Fig. 5, Supplementary Table 3, Supplementary Table 4, Supplementary Table 5, Supplementary Table 6, Supplementary Fig. 4, Supplementary Fig. 5   
 
 
 The goal of this repository is to document our methodology in sufficient detail to enable other researchers to reproduce the results reported in the manuscript.
