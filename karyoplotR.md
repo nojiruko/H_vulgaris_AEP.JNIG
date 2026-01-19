@@ -1,0 +1,68 @@
+# karyoplotR.md
+
+This document describes a workflow to run **karyoplotR** for visualizing the methylation landscape.
+
+---
+
+## Overview
+1. Install the tools
+2. Prepare the data for visualization
+3. Create the figure using karyoploteR
+
+---
+
+## 1. Install the tools
+
+```bash
+cd /data2/nojiri/karyoplotR_wd
+
+mamba create -n karyo -c conda-forge -c bioconda \
+  r-base=4.4 \
+  bioconductor-karyoploter \
+  bioconductor-rtracklayer \
+  r-tidyverse r-irkernel
+  
+conda activate karyo
+conda install -c bioconda ucsc-bedgraphtobigwig
+```
+
+
+## 2. Prepare the data for visualization
+```bash
+awk 'BEGIN{OFS="\t"}{print $1,$2,$3,$11}' /data2/nojiri/5mC_wd/dorado_modkit.sorted.bed | sort -k1,1 -k2,2n > ./5mC.bedGraph
+
+bedtools makewindows -g /data2/nojiri/5mC_wd/genome.sizes -w 10000 > win_10kb.bed
+bedtools map -a win_10kb.bed -b 5mC.bedGraph -c 4 -o mean -null 0 | sort -k1,1 -k2,2n > 5mC.10kb.mean.bg
+bedGraphToBigWig ./5mC.10kb.mean.bg /data2/nojiri/5mC_wd/genome.sizes ./5mC.10kb.mean.bw
+
+#/data2/nojiri/quarTeT_wd/jnig_quarTeT/Candidatesからセントロメア位置を記載したJNIG_centromere.bedを作成
+```
+
+##3. Create the figure using karyoploteR
+```r
+library(karyoploteR)
+library(GenomicRanges)
+library(rtracklayer)
+library(GenomicFeatures)
+library(BSgenome)
+
+svg("JNIG_karyotype.svg", width = 14, height = 10)
+
+genome <- import("uc.FINAL.fasta") 
+gr <- GRanges(seqnames = names(genome), ranges = IRanges(start = 1, end = width(genome)))
+
+kp <- plotKaryotype(genome = gr, chromosomes = "all", data.panel = 1, ideogram.plotter = NULL)
+
+#centromere
+cen <- import("JNIG_centromere.bed") 
+kpRect(kp, data=gr, y0=0, y1=1, col="#DDDDDD", border=NA, data.panel=1, r0=0, r1=0.3)
+kpRect(kp, data=cen, y0=0, y1=1, col="#e60012", border=NA, data.panel=1, r0=0, r1=0.3)
+kpAddLabels(kp, labels="Centromere", data.panel=1, r0=0, r1=0.3, cex=0.7)
+kpAddBaseNumbers(kp, tick.dist = 10e6, data.panel = 1, r0 = 0, r1 = 0.3, col = "#000000")
+
+#methylation BigWig data
+kpPlotBigWig(kp, data="5mC.10kb.mean.bw", r0=0.35, r1=1.00, type = "area", border = NA, data.panel=1, col = "#BFBFBF")
+kpAddLabels(kp, labels="Methylation", r0=0.35, r1=1.00, cex=0.7, label.margin=0.03, data.panel=1)
+kpAxis(kp, data.panel=1, r0=0.35, r1=1.0, ymin=0, ymax=100, lwd = 0.3)
+dev.off()
+```
