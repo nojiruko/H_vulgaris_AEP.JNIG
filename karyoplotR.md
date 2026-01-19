@@ -38,7 +38,7 @@ bedGraphToBigWig ./5mC.10kb.mean.bg /data2/nojiri/5mC_wd/genome.sizes ./5mC.10kb
 #/data2/nojiri/quarTeT_wd/jnig_quarTeT/Candidatesからセントロメア位置を記載したJNIG_centromere.bedを作成
 ```
 
-##3. Create the figure using karyoploteR
+## 3. Create the figure using karyoploteR
 ```r
 library(karyoploteR)
 library(GenomicRanges)
