@@ -4,7 +4,7 @@ This repository contains step-by-step descriptions of all analyses and associate
 
 > **Kaoruko Nojiri†, Koryu Kin†, Akimasa Someya, Tetsuo Kon, Koto Kon-Nanjo, Hiroshi Shimizu, Kazuharu Arakawa, and Etsuo A. Susaki**  
 > **Whole-genome comparative analysis revealing signatures of aging-related genes in immortal *Hydra vulgaris***  
-> *PLOS Biology* (in preparation / 2026).  
+> (in preparation / 2026).  
 > doi: [***](https://doi.org/***)  
 > PMID: [***](https://pubmed.ncbi.nlm.nih.gov/***/)
 
