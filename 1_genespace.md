@@ -1,4 +1,4 @@
-# genespace.md
+# 1_genespace.md
 
 This document describes a minimal workflow to run **GENESPACE** for comparative genomics / synteny analysis.
 
