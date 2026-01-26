@@ -1,4 +1,4 @@
-# Spurious Transcription
+# 7_SpuriousTranscription
 
 This repository contains a pipeline to:
 
