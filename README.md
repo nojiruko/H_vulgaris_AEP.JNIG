@@ -20,9 +20,10 @@ Specifically, the following markdown documents contain scripts to reproduce the 
 - **2_plotsr.md**: Fig. 2D, Supplementary Fig. 2A 
 - **3_Earlgrey.md**: Table 5, Table 6, Supplementary Fig. 2B, Supplementary Fig. 2C
 - **4_quarTeT.md**: Fig. 2D (annotation track), Fig. 3A (centromere track)
-- **5_5mC.md**: Fig. 3A–F, Supplementary Fig. 3  
-- **6_sprious_transcription.md**: Fig. 3G
-- **7_Orthofinder.md**: Fig. 4, Fig. 5, Supplementary Table 3, Supplementary Table 4, Supplementary Table 5, Supplementary Table 6, Supplementary Fig. 4, Supplementary Fig. 5   
+- **5_karyoplotR.md**: Fig. 3A
+- **6_5mC.md**: Fig. 3A–F, Supplementary Fig. 3  
+- **7_sprioustranscription.md**: Fig. 3G
+- **8_Orthofinder.md**: Fig. 4, Fig. 5, Supplementary Table 3, Supplementary Table 4, Supplementary Table 5, Supplementary Table 6, Supplementary Fig. 4, Supplementary Fig. 5   
 
 
 The code was originally written to rely on directory/file structures and software path configurations that are specific to the systems on which the analyses were performed.  
