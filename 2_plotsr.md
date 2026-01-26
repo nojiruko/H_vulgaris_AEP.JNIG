@@ -1,4 +1,4 @@
-# genespace.md
+# 2_plotsr
 
 This document describes a minimal workflow to run **plotsr** for stractual variation.
 
