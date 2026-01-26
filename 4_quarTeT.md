@@ -1,4 +1,4 @@
-# quarTeT.md
+# 4_quarTeT
 
 This document describes a minimal workflow to run **quarTeT** for detecting centromerer.
 
