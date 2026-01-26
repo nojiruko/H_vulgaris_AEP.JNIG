@@ -1,4 +1,4 @@
-# Spurious Transcription.md
+# Spurious Transcription
 
 This repository contains a pipeline to:
 
@@ -6,7 +6,6 @@ This repository contains a pipeline to:
 2. Compute mean coverage per exon using RNA-seq mapping + `bedtools map`
 3. Visualize exon coverage ratios grouped by methylation status and gene conservation
 
----
 
 ## Requirements
 
