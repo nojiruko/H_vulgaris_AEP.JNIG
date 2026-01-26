@@ -1,4 +1,4 @@
-# orthofinder.md
+# 8_orthofinder
 
 This document describes a minimal workflow to run **orthofinder** for comparative genomics analysis.
 
