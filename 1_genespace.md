@@ -73,7 +73,7 @@ sed -i 's/\./_/g' *.fa
 cd ..
 ```
 
-## 2. Prepare GENESPACE input files  
+## 3. Run GENESPACE and generate plots  
 
 ```bash
 #Install GENESPACE in R
