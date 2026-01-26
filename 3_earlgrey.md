@@ -1,4 +1,4 @@
-# earlgrey.md
+# 3_earlgrey
 
 This document describes a minimal workflow to run **earlgrey** for detecting TEs.
 
