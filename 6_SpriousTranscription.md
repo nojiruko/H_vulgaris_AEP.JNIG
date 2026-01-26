@@ -9,8 +9,6 @@ This repository contains a pipeline to:
 
 ## Requirements
 
-### Tools
-- conda (recommended)
 - awk, sort, comm
 - bedtools
 - samtools
