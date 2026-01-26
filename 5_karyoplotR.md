@@ -1,4 +1,4 @@
-# karyoplotR.md
+# 5_karyoplotR
 
 This document describes a workflow to run **karyoplotR** for visualizing the methylation landscape.
 
