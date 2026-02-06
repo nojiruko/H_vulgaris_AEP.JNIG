@@ -1,9 +1,7 @@
-#cd enrichment/
-#conda activateしない
-# ClusterProfiler, ReactomePA, org.Hs.eg.db, STRINGdb, RCy3 などのインストール
+# Install ClusterProfiler, ReactomePA, org.Hs.eg.db, STRINGdb and RCy3
 BiocManager::install("clusterProfiler")
 BiocManager::install("ReactomePA")
-BiocManager::install("org.Hs.eg.db") # ヒト遺伝子アノテーションDB
+BiocManager::install("org.Hs.eg.db") 
 
 library(clusterProfiler)
 library(org.Hs.eg.db)
@@ -22,11 +20,11 @@ gene.df <- bitr(gene_vec,
               
 entrez_genes <- gene.df$ENTREZID
 
-## GO BP (biological process) 解析
+## GO BP (biological process) analysis
 ego_bp <- enrichGO(gene          = entrez_genes,
                    OrgDb         = org.Hs.eg.db,
                    keyType       = "ENTREZID",
-                   ont           = "BP",      # BP, MF, CC から選択
+                   ont           = "BP",     
                    pAdjustMethod = "BH",
                    pvalueCutoff  = 0.05,
                    qvalueCutoff  = 0.05)
@@ -38,7 +36,7 @@ ego_bp_df <- as.data.frame(ego_bp)
 write.csv(ego_bp_df, "Holi_o_Hv_x_GO_BP_Enrichment.csv", row.names = FALSE)
 
 
-## GO MF (molecular function) 解析
+## GO MF (molecular function) analysis
 ego_mf <- enrichGO(gene          = entrez_genes,
                    OrgDb         = org.Hs.eg.db,
                    keyType       = "ENTREZID",
@@ -53,11 +51,11 @@ ggsave("Holi_o_Hv_x_GO_MF_Enrichment.pdf", plot = mf_plot, width = 8, height = 6
 ego_mf_df <- as.data.frame(ego_mf)
 write.csv(ego_mf_df, "Holi_o_Hv_x_GO_MF_Enrichment.csv", row.names = FALSE)
 
-## GO CC (cellular aomponent) 解析
+## GO CC (cellular aomponent) analysis
 ego_cc <- enrichGO(gene          = entrez_genes,
                    OrgDb         = org.Hs.eg.db,
                    keyType       = "ENTREZID",
-                   ont           = "CC",      # BP, MF, CC から選択
+                   ont           = "CC",
                    pAdjustMethod = "BH",
                    pvalueCutoff  = 0.05,
                    qvalueCutoff  = 0.05)
@@ -68,7 +66,7 @@ ego_cc_df <- as.data.frame(ego_cc)
 write.csv(ego_cc_df, "Holi_o_Hv_x_GO_CC_Enrichment.csv", row.names = FALSE)
 
 
-# KEGG解析
+# KEGG analysis
 ekegg <- enrichKEGG(gene         = entrez_genes,
                     organism     = "hsa",
                     keyType      = "kegg",
@@ -83,7 +81,7 @@ ekegg_df <- as.data.frame(ekegg)
 write.csv(ekegg_df, "Holi_o_Hv_x_KEGG_Enrichment.csv", row.names = FALSE)
 
 
-# Reactome解析
+# Reactome analysis
 ereact <- enrichPathway(gene          = entrez_genes,
                         organism      = "human",
                         pAdjustMethod = "BH",
@@ -109,11 +107,11 @@ gene.df <- bitr(gene_vec,
               
 entrez_genes <- gene.df$ENTREZID
 
-## GO BP (biological process) 解析
+## GO BP (biological process) analysis
 ego_bp <- enrichGO(gene          = entrez_genes,
                    OrgDb         = org.Hs.eg.db,
                    keyType       = "ENTREZID",
-                   ont           = "BP",      # BP, MF, CC から選択
+                   ont           = "BP",    
                    pAdjustMethod = "BH",
                    pvalueCutoff  = 0.05,
                    qvalueCutoff  = 0.05)
@@ -125,7 +123,7 @@ ego_bp_df <- as.data.frame(ego_bp)
 write.csv(ego_bp_df, "Holi_x_Hv_o_GO_BP_Enrichment.csv", row.names = FALSE)
 
 
-## GO MF (molecular function) 解析
+## GO MF (molecular function) analysis
 ego_mf <- enrichGO(gene          = entrez_genes,
                    OrgDb         = org.Hs.eg.db,
                    keyType       = "ENTREZID",
@@ -140,11 +138,11 @@ ggsave("Holi_x_Hv_o_GO_MF_Enrichment.pdf", plot = mf_plot, width = 8, height = 6
 ego_mf_df <- as.data.frame(ego_mf)
 write.csv(ego_mf_df, "Holi_x_Hv_o_GO_MF_Enrichment.csv", row.names = FALSE)
 
-## GO CC (cellular aomponent) 解析
+## GO CC (cellular aomponent) analysis解析
 ego_cc <- enrichGO(gene          = entrez_genes,
                    OrgDb         = org.Hs.eg.db,
                    keyType       = "ENTREZID",
-                   ont           = "CC",      # BP, MF, CC から選択
+                   ont           = "CC", 
                    pAdjustMethod = "BH",
                    pvalueCutoff  = 0.05,
                    qvalueCutoff  = 0.05)
@@ -155,7 +153,7 @@ ego_cc_df <- as.data.frame(ego_cc)
 write.csv(ego_cc_df, "Holi_x_Hv_o_GO_CC_Enrichment.csv", row.names = FALSE)
 
 
-# KEGG解析
+# KEGG analysis
 ekegg <- enrichKEGG(gene         = entrez_genes,
                     organism     = "hsa",
                     keyType      = "kegg",
@@ -170,7 +168,7 @@ ekegg_df <- as.data.frame(ekegg)
 write.csv(ekegg_df, "Holi_x_Hv_o_KEGG_Enrichment.csv", row.names = FALSE)
 
 
-# Reactome解析
+# Reactome analysis
 ereact <- enrichPathway(gene          = entrez_genes,
                         organism      = "human",
                         pAdjustMethod = "BH",
