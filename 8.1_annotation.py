@@ -1,12 +1,14 @@
-#orthofinderの出力にアノテーションをつける
+# This Python script adds annotations to the OrthoFinder output.
 
-#==========protein idをもとに遺伝子名をつける==========
+## Overview
+#1. Name genes based on protein IDs
+#2. Merge blast_significantHits files 
 
-#annotation
-#各生物のmartのダウンロード。ヒト、マウスはprotein stable id verion、ハエ、線虫はprotein stable idでダウンロード。
-#NCBI gene (formerly Entrezgene) IDとgene nameの表をダウンロード
-#*_blast_significantHits.outが11個、mart_*.txtが4個、老化遺伝子リストがあることを確認
-
+#===== 1. Name genes based on protein IDs =====
+# Download BioMart data for each organism.
+# For human and mouse, download using protein stable ID version.
+# For fly and worm, download using protein stable ID.
+# Download a table of NCBI Gene (formerly Entrez Gene) IDs and gene names.
 
 import pandas as pd
 orthogroup = pd.read_csv('./Orthogroups.tsv', sep='\t', dtype=str)
@@ -16,15 +18,15 @@ M_musculus = pd.read_csv('./mart_m_musculus.txt', sep='\t', dtype=str, header=0)
 D_melanogaster = pd.read_csv('./mart_d_melanogaster.txt', sep='\t', dtype=str, header=0)
 C_elegans = pd.read_csv('./mart_c_elegans.txt', sep='\t', dtype=str, header=0)
 
-# NaN の確認
+# Check for NaN values
 orthogroup.isna().sum()
 H_sapiens.isna().sum()
 
-# 空文字の確認
+# Check for empty strings
 (orthogroup == "").sum() #0
 (H_sapiens == "").sum() #0
 
-# mart.txtから欠損値がある行を削除
+# Remove rows with missing values from mart.txt
 H_sapiens = H_sapiens[H_sapiens['Transcript stable ID'].notna()]
 H_sapiens = H_sapiens[H_sapiens['Gene name'].notna()]
 M_musculus = M_musculus[M_musculus['Transcript stable ID'].notna()]
@@ -34,7 +36,7 @@ D_melanogaster = D_melanogaster[D_melanogaster['Gene name'].notna()]
 C_elegans = C_elegans[C_elegans['Transcript stable ID'].notna()]
 C_elegans = C_elegans[C_elegans['Gene name'].notna()]
 
-#重複を削除しprotein idをユニークにする。
+# Remove duplicates to make protein IDs unique
 H_sapiens = H_sapiens.drop_duplicates(subset=['Transcript stable ID', 'Gene name'])
 H_sapiens = H_sapiens.groupby('Transcript stable ID').agg(lambda x: ', '.join(x.dropna().unique())).reset_index()
 M_musculus = M_musculus.drop_duplicates(subset=['Transcript stable ID', 'Gene name'])
@@ -44,10 +46,7 @@ D_melanogaster = D_melanogaster.groupby('Transcript stable ID').agg(lambda x: ',
 C_elegans = C_elegans.drop_duplicates(subset=['Transcript stable ID', 'Gene name'])
 C_elegans = C_elegans.groupby('Transcript stable ID').agg(lambda x: ', '.join(x.dropna().unique())).reset_index()
 
-#C_elegans['Protein stable ID'].duplicated().any()とかで確認
-
 orthogroup = orthogroup[['Orthogroup', 'Homo_sapiens', 'Mus_musculus', 'Caenorhabditis_elegans', 'Drosophila_melanogaster', 'Hydra_oligactis', 'Hydra_vulgaris_105', 'Hydra_vulgaris_AEP', 'Hydra_vulgaris_JNIG']]
-
 orthogroup = orthogroup.assign(Homo_sapiens=orthogroup["Homo_sapiens"].str.split(",")).explode("Homo_sapiens")
 orthogroup["Homo_sapiens"] = orthogroup["Homo_sapiens"].str.strip()
 
@@ -82,8 +81,8 @@ annotation = annotation[['Orthogroup', 'Homo_sapiens', 'h_sapiens_gene', 'Mus_mu
 annotation.to_csv('./annotation_tmp1.csv', sep='\t', index=False)
 
 
-#老化関連遺伝子のアノテーション
-#Hallmarksを参考に作った遺伝子リストaging_pathway_table.csv
+# Annotation of aging-related genes
+# Gene list aging_gene_lists_in_this_study.tsv was created based on the Hallmarks of Aging
 aging_gene_lists = pd.read_csv('./aging_gene_lists_in_this_study.tsv', sep='\t', dtype=str, header=None)
 annotation = annotation.assign(h_sapiens_gene=annotation["h_sapiens_gene"].str.split(",")).explode("h_sapiens_gene")
 annotation["h_sapiens_gene"] = annotation["h_sapiens_gene"].str.strip()
@@ -92,9 +91,7 @@ annotation = annotation.groupby('Orthogroup').agg(lambda x: ', '.join(x.dropna()
 annotation = annotation.rename(columns={0:'aging_gene_in_this_study', 1:'database', 2:'hallmarks'})
 annotation = annotation[['Orthogroup', 'Homo_sapiens', 'h_sapiens_gene', 'Mus_musculus', 'm_musculus_gene', 'Drosophila_melanogaster', 'd_melanogaster_gene', 'Caenorhabditis_elegans', 'c_elegans_gene', 'Hydra_oligactis', 'Hydra_vulgaris_105', 'Hydra_vulgaris_AEP', 'Hydra_vulgaris_JNIG', 'aging_gene_in_this_study', 'database', 'hallmarks']]
 
-#メモ:aging_gene.xlsx（Maria Pascual-Torner、2022）
-
-#複数のorthogroupに同じgene nameがassignされているか確認する用の列を追加
+# Add a column to check whether the same gene name is assigned to multiple orthogroups
 annotation = annotation.assign(h_sapiens_gene=annotation["h_sapiens_gene"].str.split(',')).explode("h_sapiens_gene")
 annotation["h_sapiens_gene"] = annotation["h_sapiens_gene"].str.strip()
 
@@ -106,20 +103,19 @@ annotation = annotation.groupby('Orthogroup').agg(lambda x: ', '.join(x.dropna()
 annotation.to_csv('./annotation_tmp2.csv', sep='\t', index=False)
 
 
-#==========blast_significantHitsのマージ==========
-
-#explodeしてmargeの繰り返し
-##blast_significantHits.outを必要な列のみにして、query idをユニークにする
+#===== 2. Merge blast_significantHits files =====
+# Repeat explode and merge operations
+## Reduce blast_significantHits.out to the required columns and make query IDs unique
 
 def merge_blast_hits(
     annotation_df,
-    species_col,          # 例: 'Hydra_oligactis'
-    query_label,          # 例: 'Holi'
-    seq_label,            # 例: 'Hv105'
-    file_path,   # 例: './q_Holi_s_Hv105_blast_significantHits.out'
-    added_colname        # 例: 'qHoli_sHv105_BlastSignificantHits'
+    species_col,          # ex) 'Hydra_oligactis'
+    query_label,          # ex) 'Holi'
+    seq_label,            # ex) 'Hv105'
+    file_path,   # ex) './q_Holi_s_Hv105_blast_significantHits.out'
+    added_colname        # ex) 'qHoli_sHv105_BlastSignificantHits'
 ):
-    # BLASTファイルの読み込みと整形
+    # Load and format BLAST files
     blast_df = (
         pd.read_csv(file_path, sep='\t', dtype=str, header=None)[[0, 1]]
         .rename(columns={0: query_label, 1: seq_label})
@@ -129,20 +125,19 @@ def merge_blast_hits(
         .rename(columns={seq_label: added_colname})
     )
 
-    # 対象列を explode・strip
+    # Explode and strip the target columns
     df = annotation_df
     df[species_col] = df[species_col].str.split(',')
     df = df.explode(species_col)
     df[species_col] = df[species_col].str.strip()
 
-    # マージとクリーンアップ
+    # Merg
     df = pd.merge(df, blast_df, left_on=species_col, right_on=query_label, how='left').drop(columns=[query_label])
 
-    # Orthogroup ごとにまとめる
+    # Group by orthogroup
     return df.groupby('Orthogroup').agg(lambda x: ', '.join(x.dropna().unique())).reset_index()
 
-#13通り分
-
+#for 13 combinations
 #1
 annotation = merge_blast_hits(
     annotation_df=annotation,
@@ -333,8 +328,7 @@ annotation = merge_blast_hits(
     added_colname='qHsHoli_sHv105_BlastSignificantHits'
 )
 
-# 各列に対して _binary 列を作成
-
+# Create _binary columns for each column
 blast_cols = [col for col in annotation.columns if col.endswith('_BlastSignificantHits')]
 for col in blast_cols:
     new_col = f'{col}_binary'
@@ -346,35 +340,33 @@ for col in species_cols:
     new_col = f'{col}_binary'
     annotation[new_col] = annotation[col].apply(lambda x: 1 if pd.notna(x) and str(x).strip() != '' else 0)
 
-# "_binary" で終わる列名だけを抽出
 binary_cols = [col for col in annotation.columns if col.endswith('_binary')]
 
-#int に変換
 annotation[binary_cols] = annotation[binary_cols].astype(int)
 
-#各オルソグループ内に各生物の配列が存在するか集計する
-# Mmusが存在するか
+# Summarize whether sequences from each species are present in each orthogroup
+# Check the presence of Mmus
 annotation["Mmus_present"] = annotation["Mus_musculus_binary"] + annotation["qHomoSapi_sMmus_BlastSignificantHits_binary"]
 
-# Dmelanoが存在するか
+# Check the presence of Dmelano
 annotation["Dmelano_present"] = annotation["Drosophila_melanogaster_binary"] + annotation["qHomoSapi_sDmelano_BlastSignificantHits_binary"]
         
-# Celeが存在するか
+# Check the presence of Cele
 annotation["Cele_present"] = annotation["Caenorhabditis_elegans_binary"] + annotation["qHomoSapi_sCele_BlastSignificantHits_binary"]
         
-# HvAEPが存在するか
+# Check the presence of HvAEP
 annotation["HvAEP_present"] = annotation["Hydra_vulgaris_AEP_binary"] + annotation["qHomoSapi_sHvAEP_BlastSignificantHits_binary"] + annotation["qHoli_sHvAEP_BlastSignificantHits_binary"] + annotation["qHsHoli_sHvAEP_BlastSignificantHits_binary"]
 
-# HvJNIGが存在するか
+# Check the presence of HvJNIG
 annotation["HvJNIG_present"] = annotation["Hydra_vulgaris_JNIG_binary"] + annotation["qHomoSapi_sHvJNIG_BlastSignificantHits_binary"] + annotation["qHoli_sHvJNIG_BlastSignificantHits_binary"] + annotation["qHsHoli_sHvJNIG_BlastSignificantHits_binary"]
 
-# Hv105が存在するか
+# Check the presence of Hv105
 annotation["Hv105_present"] = annotation["Hydra_vulgaris_105_binary"] + annotation["qHomoSapi_sHv105_BlastSignificantHits_binary"] + annotation["qHoli_sHv105_BlastSignificantHits_binary"] + annotation["qHsHoli_sHv105_BlastSignificantHits_binary"]
 
-#Hvが存在するか
+# Check the presence of Hv
 annotation["Hv_present"] = annotation["Hv105_present"] + annotation["HvAEP_present"] + annotation["HvJNIG_present"] 
 
-# Hoが存在するか
+# Check the presence of Ho
 annotation["Ho_present"] = annotation["Hydra_oligactis_binary"] + annotation["qHomoSapi_sHo_BlastSignificantHits_binary"] + annotation["qHv105_sHoli_BlastSignificantHits_binary"] + annotation["qHvAEP_sHoli_BlastSignificantHits_binary"] + annotation["qHvJNIG_sHoli_BlastSignificantHits_binary"] + annotation["qHsHvAEP_sHoli_BlastSignificantHits_binary"] + annotation["qHsHvJNIG_sHoli_BlastSignificantHits_binary"] + annotation["qHsHv105_sHoli_BlastSignificantHits_binary"]
 
 annotation.to_csv('annotation.tsv', sep='\t', index=False)
