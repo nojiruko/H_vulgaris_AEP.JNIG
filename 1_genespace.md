@@ -1,16 +1,12 @@
-# 1_genespace
+# 1 genespace
 
-This document describes a minimal workflow to run **GENESPACE** for comparative genomics / synteny analysis.
-
----
+This document describes the script used to generate Fig. 2C.
 
 ## Overview
 
 1. Install required tools  
 2. Prepare GENESPACE input files  
 3. Run GENESPACE and generate plots  
-
----
 
 ## 1. Tool Installation
 
@@ -88,3 +84,4 @@ path2mcscanx <- "/data2/nojiri/genespace_wd/MCScanX-1.0.0/"
 
 gpar <- init_genespace(wd = wd, path2mcscanx = path2mcscanx)
 out <- run_genespace(gpar, overwrite = TRUE)
+```
