@@ -36,9 +36,15 @@ As a result, users will need to modify file paths within the scripts as needed a
 > The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
 
 ## System requirements
-- R versions ≥
+- mamba (ver. 2.4.0)
+- MCScanX (ver. 1.0.0)
+- OrthoFinder (ver. 2.5.5)
+
+- R versions ≥ 4.4.2
 - Required R packages:
--   -
+  - GENESPACE (ver. 1.2.3)
+  
 - Python versions ≥
+- Required Python packages:
+  - AGAT (ver. 1.5.1)
 - Tested on Linux (Ubuntu ***)
-- 
