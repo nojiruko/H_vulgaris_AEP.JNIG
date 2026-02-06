@@ -130,9 +130,7 @@ bedtools map \
 ```
 
 ## 3. Plot exon coverage ratios
-```bash
-
-#python
+```python
 import pandas as pd
 import numpy as np
 import re
