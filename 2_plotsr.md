@@ -1,8 +1,6 @@
 # 2_plotsr
 
-This document describes a minimal workflow to run **plotsr** for stractual variation.
-
----
+This document describes the script used to generate Fig. 2D and Supp Fig. 2A.
 
 ## Overview
 1. Detect variants using SyRI
@@ -26,24 +24,24 @@ syri -c AEP_JNIG.bam -q uc.FINAL.fasta -r H_vulgaris_AEP.fa -F B --prefix AEP_JN
 ```bash
 conda install -c bioconda plotsr 
 
-#geneの位置
+#Generate a BED file with genomic positions of genes
 awk -F'\t' '$3=="gene" {print $1, $4-1, $5}' OFS='\t' H_vulgaris_AEP.gff3 > H_vulgaris_AEP_gene.bed
 
-#repeatの位置
-WS2の/data2/nojiri/earlgrey_wd/AEPearlGreyOutputs/AEP_EarlGrey/AEP_summaryFiles/AEP.filteredRepeats.bedをコピー
+#Generate a BED file with genomic positions of repetitive sequences
+#The file ../earlgrey_wd/AEPearlGreyOutputs/AEP_EarlGrey/AEP_summaryFiles/AEP.filteredRepeats.bed, which was generated in 3_Earlgrey.md, was used.
 
-#centromere bedの作成
-#/data2/nojiri/quarTeT_wd/aep_quaTeT/Candidatesを見てcentromere.bedを作成
+#Generate a BED file with genomic positions of centromere
+#/data2/nojiri/quarTeT_wd/aep_quaTeT/Candidates, which was generated in 4_quarTeT.md, was used.
 
-#genomes.txtの作成(nanoコマンドで以下を記載)
-#file	name	tags
-H_vulgaris_AEP.fa	H_vulgaris_AEP	lw:1.5
-uc.FINAL.fasta	H_vulgaris_JNIG	lw:1.5
+# Create genomes.txt for plotsr input (edit with nano and add the following)
+# file    name                tags
+H_vulgaris_AEP.fa    H_vulgaris_AEP    lw:1.5
+uc.FINAL.fasta       H_vulgaris_JNIG   lw:1.5
 
-#tracks.txtの作成(nanoコマンドで以下を記載)
-H_vulgaris_AEP_gene.bed	Genes	bw:5000;ft:bed;lc:crimson;lw:0.01;bc:mistyrose;ti:1;ns:1
-AEP.filteredRepeats.bed	Repeat	bw:5000;ft:bed;lc:dodgerblue;lw:0.01;bc:aliceblue;ti:2;ns:1
-centromere.bed	Centromere	bw:5000;ft:bed;lc:forestgreen;lw:0.01;bc:honeydew;ti:3;ns:1
+# Create tracks.txt (edit with nano and add the following)
+H_vulgaris_AEP_gene.bed    Genes        bw:5000;ft:bed;lc:crimson;lw:0.01;bc:mistyrose;ti:1;ns:1
+AEP.filteredRepeats.bed   Repeat       bw:5000;ft:bed;lc:dodgerblue;lw:0.01;bc:aliceblue;ti:2;ns:1
+centromere.bed            Centromere   bw:5000;ft:bed;lc:forestgreen;lw:0.01;bc:honeydew;ti:3;ns:1
 
 plotsr --sr AEP_JNIGsyri.out --genomes genomes.txt --tracks tracks.txt -o plotsr.tracks.pdf
 ```
