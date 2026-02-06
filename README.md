@@ -32,4 +32,5 @@ As a result, users will need to modify file paths within the scripts as needed a
 
 ## Accessing additional required files
 
-Nanopore and Hi-C sequencing data have been deposited in ***** under accession numbers ***** and *****, respectively. The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
+> Nanopore and Hi-C sequencing data have been deposited in ***** under accession numbers ***** and *****, respectively.
+> The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
