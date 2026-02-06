@@ -1,16 +1,11 @@
 # 4_quarTeT
-
-This document describes a minimal workflow to run **quarTeT** for detecting centromerer.
-
----
+This document describes the script used to generate Fig. 2D (annotation track) and Fig. 3A (centromere track).
 
 ## Overview
 1. Predict repeat sequences using EDTA
 2. Predict centromeres using quarTeT
 
-
 ## 1. Predict repeat sequences using EDTA
-
 ```bash
 cd quarTeT_wd
 
@@ -34,8 +29,8 @@ mkdir aep_quarTeT
 cd aep_quarTeT
 python3 /data2/nojiri/quarTeT_wd/quarTeT/quartet.py CentroMiner -i /data2/nojiri/quarTeT_wd/H_vulgaris_AEP.fa --TE /data2/nojiri/quarTeT_wd/H_vulgaris_AEP.fa.mod.EDTA.TEanno.gff3 --gene /data2/nojiri/quarTeT_wd/H_vulgaris_AEP.gff3 -t 48
 
-#メモ：AEPのセントロメア#
-#/data2/nojiri/quarTeT_wd/aep_quaTeT/Candidatesから抜粋
+# Centromere positions in _H. vulgaris_ AEP
+# Extracted from /data2/nojiri/quarTeT_wd/aep_quaTeT/Candidates
 HVAEP1	47693748	48293151
 HVAEP2	4307655	4418075
 HVAEP3	49220529	49331983
@@ -52,8 +47,8 @@ HVAEP13	44559691	44709459
 HVAEP14	7742636	7989881
 HVAEP15	23696240	23856110
 
-#メモ：JNIGのセントロメア#
-#/data2/nojiri/quarTeT_wd/jnig_quaTeT/Candidatesから抜粋
+# Centromere positions in _H. vulgaris_ AEP.JNIG
+# Extracted from /data2/nojiri/quarTeT_wd/jnig_quaTeT/Candidates
 HiC_scaffold_1	44862403	45129867
 HiC_scaffold_2	46070841	46936703
 HiC_scaffold_3	48816250	48933293
