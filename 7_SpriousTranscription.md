@@ -1,24 +1,13 @@
 # 7_SpuriousTranscription
+This document describes the script used to generate Fig. 3A–F and Supp Fig. 3G.
 
-This repository contains a pipeline to:
-
-1. Create exon BED files annotated with exon number and total exon count (strand-aware)
-2. Compute mean coverage per exon using RNA-seq mapping + `bedtools map`
+## Overview
+1. Create exon BED files annotated with exon number and total exon count
+2. Compute mean coverage per exon using RNA-seq
 3. Visualize exon coverage ratios grouped by methylation status and gene conservation
 
 
-## Requirements
-
-- awk, sort, comm
-- bedtools
-- samtools
-- hisat2
-- python >= 3.8
-- python packages: pandas, numpy, matplotlib
-
----
-
-## 1) Create strand-aware exon BED with exon number and total exon count
+## 1. Create strand-aware exon BED with exon number and total exon count
 
 ```bash
 cd SpriousTranscription_wd
@@ -34,8 +23,8 @@ awk -F '\t' '{
     print $1, $2, $3, $4, $5, $6, $7, $8, tid, gid;
 }' OFS='\t' jnig15_withGENE_withCodons.gtf > jnig_15chrom.txt
 
-#Identify genes with multiple isoforms (.t2 ~ .t9)
-#JNIG遺伝子の最大isoform数は9だったため
+# Identify genes with multiple isoforms (.t2–.t9)
+# The maximum number of isoforms per JNIG gene was 9
 awk -F'\t' '$9 ~ /\.t[2-9]$/ { print $10 }' jnig_15chrom.txt | sort -u > gene_list_t2_to_t9.txt
 wc -l gene_list_t2_to_t9.txt
 # 1713
@@ -110,7 +99,7 @@ sort -k1,1 -k2,2n -k3,3n exon_number_over6.bed > exon_number_over6.sorted.bed
 ```
 
 
-## 2) Compute exon coverage
+## 2. Compute exon coverage
 ```bash
 #Mapping RNA-seq reads (HISAT2)
 hisat2-build uc.FINAL.fasta hydra_index
@@ -140,7 +129,7 @@ bedtools map \
   > single_isoform_exon_over6_count_cov.bed
 ```
 
-## 3) Plot exon coverage ratios
+## 3. Plot exon coverage ratios
 ```bash
 
 #python
@@ -150,8 +139,7 @@ import re
 
 df = pd.read_csv("single_isoform_exon_over6_count_cov.bed", sep="\t", header=None)
 
-
-# 列名の変更
+# Rename columns
 df = df.rename(columns={df.columns[0]: "chr", df.columns[1]: "start", df.columns[2]: "end", df.columns[4]: "strand", df.columns[7]: "gene_id", df.columns[6]: "transcript_id", df.columns[8]: "exon_number", df.columns[10]: "cov"})
 df["exon_number"] = pd.to_numeric(df["exon_number"], errors="coerce")
 df["cov"] = pd.to_numeric(df["cov"], errors="coerce")
@@ -181,7 +169,7 @@ conserved = [re.sub(r"^file_\d+_file_\d+_", "", x) for x in conserved]
 conserved_set = set(conserved)
 df_all["conserved_gene"] = df_all["gene_id"].apply(lambda x: "conserved" if x in conserved_set else "nonconserved")
 
-# conserved_gene × methylation_statusのラベル作成
+# Create labels for conserved_gene × methylation_status
 df_all['group'] = df_all['conserved_gene'] + "_" + df_all['methylation_status']
 df_all["group"].unique() 
 
@@ -206,7 +194,7 @@ for exon in [1, 2, 3, 4, 5, 6]:
 
 df_results = pd.DataFrame(results, columns=["exon", "len_g1", "len_g2", "len_g3", "len_g4", "mean_g1", "mean_g2", "mean_g3", "mean_g4"])
 
-#メモ：df_results#
+#Note: df_results
 >>> df_results
    exon  len_g1  len_g2  len_g3  len_g4   mean_g1   mean_g2   mean_g3   mean_g4
 0     1    2960    3230     356    1090  0.000000  0.000000  0.000000  0.000000
@@ -216,7 +204,7 @@ df_results = pd.DataFrame(results, columns=["exon", "len_g1", "len_g2", "len_g3"
 4     5    2851    3214     351    1090  0.576894  0.344364  0.812908  0.331614
 5     6    2820    3212     352    1090  0.578766  0.343732  0.819413  0.313879
 
-#折れ線グラフを書く
+# Plot a line graph
 import matplotlib.pyplot as plt
 
 plt.figure(figsize=(8, 6))
