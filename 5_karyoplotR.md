@@ -1,18 +1,12 @@
 # 5_karyoplotR
-
-This document describes a workflow to run **karyoplotR** for visualizing the methylation landscape.
-
----
+This document describes the script used to generate Fig. 3A.
 
 ## Overview
 1. Install the tools
 2. Prepare the data for visualization
 3. Create the figure using karyoploteR
 
----
-
 ## 1. Install the tools
-
 ```bash
 cd /data2/nojiri/karyoplotR_wd
 
@@ -26,7 +20,6 @@ conda activate karyo
 conda install -c bioconda ucsc-bedgraphtobigwig
 ```
 
-
 ## 2. Prepare the data for visualization
 ```bash
 awk 'BEGIN{OFS="\t"}{print $1,$2,$3,$11}' /data2/nojiri/5mC_wd/dorado_modkit.sorted.bed | sort -k1,1 -k2,2n > ./5mC.bedGraph
@@ -35,7 +28,8 @@ bedtools makewindows -g /data2/nojiri/5mC_wd/genome.sizes -w 10000 > win_10kb.be
 bedtools map -a win_10kb.bed -b 5mC.bedGraph -c 4 -o mean -null 0 | sort -k1,1 -k2,2n > 5mC.10kb.mean.bg
 bedGraphToBigWig ./5mC.10kb.mean.bg /data2/nojiri/5mC_wd/genome.sizes ./5mC.10kb.mean.bw
 
-#/data2/nojiri/quarTeT_wd/jnig_quarTeT/Candidatesからセントロメア位置を記載したJNIG_centromere.bedを作成
+# Create JNIG_centromere.bed containing centromere positions
+# extracted from /data2/nojiri/quarTeT_wd/jnig_quarTeT/Candidates
 ```
 
 ## 3. Create the figure using karyoploteR
