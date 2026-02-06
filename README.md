@@ -1,14 +1,12 @@
-# Whole-genome comparative analysis revealing signatures of aging-related genes in immortal *Hydra vulgaris*
+# Comparative genomics reveals signatures of distinct metabolic strategies and gene loss associated with _Hydra_ immortality
 
 This repository contains step-by-step descriptions of all analyses and associated code related to the following manuscript:
 
 > **Kaoruko Nojiri, Koryu Kin, Akimasa Someya, Tetsuo Kon, Koto Kon-Nanjo, Hiroshi Shimizu, Kazuharu Arakawa, and Etsuo A. Susaki**  
-> **Whole-genome comparative analysis revealing signatures of aging-related genes in immortal *Hydra vulgaris***  
-> (in preparation / 2026).  
-> doi: [***](https://doi.org/***)  
-> PMID: [***](https://pubmed.ncbi.nlm.nih.gov/***/)
-
----
+> **Comparative genomics reveals signatures of distinct metabolic strategies and gene loss associated with _Hydra_ immortality**  
+> (in preparation 2026).  
+> doi: ***
+> PMID: ***
 
 ## Structure of this repository
 
@@ -32,12 +30,6 @@ Therefore, cloning this repository alone does not fully reproduce the original f
 In addition, due to file size limitations, we are not able to host all files required for every analysis on GitHub.  
 As a result, users will need to modify file paths within the scripts as needed and download additional required files from external sources (described below).
 
----
-
 ## Accessing additional required files
 
-All files required to run the analyses described in this repository can be obtained from the following link:  
-[https://***]
-
-Raw sequencing data are also available from NCBI under the BioProject accession **PRJNAxxx**.  
-In addition, the strain AEP.JNIG *H. vulgaris* genome assembly is available from GenBank under accession **JALDPZxxx**.
+Nanopore and Hi-C sequencing data have been deposited in ***** under accession numbers ***** and *****, respectively. The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
