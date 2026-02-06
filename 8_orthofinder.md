@@ -1,8 +1,6 @@
 # 8_orthofinder
 
-This document describes a minimal workflow to run **orthofinder** for comparative genomics analysis.
-
----
+This document describes the script used to generate Fig. 4, Fig. 5, Supp Table 3, Supp Table 4, Supp Table 5, Supp Table 6, Supp Fig. 4 and Supp Fig. 5.
 
 ## Overview
 1. Download the sequences of 33 species as input for OrthoFinder
@@ -48,7 +46,7 @@ wget http://ftp.ensemblgenomes.org/pub/metazoa/release-60/fasta/caenorhabditis_e
 wget https://ftp.ensemblgenomes.ebi.ac.uk/pub/metazoa/release-60/gff3/caenorhabditis_elegans/Caenorhabditis_elegans.WBcel235.60.gff3.gz && gunzip Caenorhabditis_elegans.WBcel235.60.gff3.gz && mv Caenorhabditis_elegans.WBcel235.60.gff3 C_elegans.gff3 
 
 #Capsaspora owczarzaki
-https://juntendo.box.com/s/6234gjolpyjk0anaslgdvb8k4vq4emg9
+Amino acid sequences of Capsaspora owczarzaki were collected from the annotated C. owczarzaki genome available at the DDBJ repository under the BioProject: PRJDB19057.
 mv Cowc_genome_v5.fasta C_owczarzaki.fa
 mv Cowc_genome_v5.gtf C_owczarzaki.gtf
 
@@ -161,16 +159,16 @@ cd-hit -i ./Ccrux.Trinity.faa -o C_cruxmelitensis.aa -c 0.95
 
 ## 2. Generate proteomes from genome sequences
 ```bash
-##最長アイソフォームからタンパク質配列を抽出
+## Extract protein sequences from the longest isoform
 mamba install -c bioconda agat -y
 for f in *.gtf ; do sed agat_convert_sp_gxf2gxf.pl --gff ./braker.gtf $f ; done
 for f in *.gff ; do out="${f%.gff}.longestIso.gff"; agat_sp_keep_longest_isoform.pl --gff "$f" -o "$out"; done
 for f in *.gff3; do out="${f%.gff3}.longestIso.gff"; agat_sp_keep_longest_isoform.pl --gff "$f" -o "$out"; done
 for f in *.longestIso.gff; do base="${f%.longestIso.gff}"; gffread "$f" -g "${base}.fa" -y "${base}.prot.longestIso.fa"; done
-##gffに文字化けがあったため
+##to prevent errors
 agat_sp_extract_sequences.pl --gff C_owczarzaki.longestIso.gff --fasta C_owczarzaki.fa -p --output C_owczarzaki.prot.longestIso.fa
 
-##orthofinderでのエラー防止
+## To prevent errors in OrthoFinder
 mkdir ./prot.longestIso.fa
 cp ./*.prot.longestIso.fa ./prot.longestIso.fa/
 cd prot.longestIso.fa/
@@ -183,7 +181,7 @@ cd ..
 #phylogenetic_tree.txt
 ((((((Hydractinia_echinata,Clytia_hemisphaerica),(Hydra_viridissima,(((Hydra_vulgaris_AEP,Hydra_vulgaris_JNIG),Hydra_vulgaris_105),Hydra_oligactis))),(Rhopilema_esculentum,Morbakka_virulenta)),((Acropora_millepora,Porites_lutea),(Exaiptasia_diaphana,(Nematostella_vectensis,Scolanthus_callimorphus)))),Trichoplax_adhaerens),((Adineta_vaga,((Daphnia_pulex,(Bombyx_mori,Drosophila_melanogaster)),Caenorhabditis_elegans)),((Patiria_miniata,Strongylocentrotus_purpuratus),(Callorhinchus_milii,((Latimeria_chalumnae,(Xenopus_tropicalis,((Homo_sapiens,Mus_musculus),Gallus_gallus))),Lepisosteus_oculatus))))),Amphimedon_queenslandica),Mnemiopsis_leidyi),Monosiga_brevicollis),Capsaspora_owczarzaki);
 
-#/prot.longestIso.fa/以下のファイル名を以下に変更
+# Rename the files under /prot.longestIso.fa/ as follows
 Acropora_millepora.fa
 Adineta_vaga.fa
 Amphimedon_queenslandica.fa
@@ -227,7 +225,7 @@ orthofinder -S diamond_ultra_sens -M msa -s ./phylogenetic_tree.txt -t 48 -f ./p
 
 ## 4. Run BLAST
 ```bash
-#下記annotation.pyに必要なファイルを準備
+# Prepare the files required for 8.1_annotation.py below
 cd /Orthofinder_wd
 
 makeblastdb -in ./orthofinder/prot.longestIso.fa/Hydra_oligactis.fa -dbtype prot -out ./blast_db/H_oligactis_db
@@ -239,7 +237,7 @@ makeblastdb -in ./orthofinder/prot.longestIso.fa/Caenorhabditis_elegans.fa -dbty
 makeblastdb -in ./orthofinder/prot.longestIso.fa/Drosophila_melanogaster.fa -dbtype prot -out ./blast_db/Drosophila_melanogaster_db
 makeblastdb -in ./orthofinder/prot.longestIso.fa/Mus_musculus.fa -dbtype prot -out ./blast_db/Mus_musculus_db
 
-#blastpを13通り分行う
+# Run BLASTP for 13 combinations
 #1 q:Ho s:Hv105
 blastp -query ./orthofinder/prot.longestIso.fa/Hydra_oligactis.fa -db ./blast_db/Hv_105_db -num_threads 48 -outfmt "6 qseqid sseqid length qlen slen evalue bitscore" -out ./q_Holi_s_Hv105_blast.out
 awk '$6 < 1e-5' ./q_Holi_s_Hv105_blast.out > ./q_Holi_s_Hv105_blast_significantHits.out
@@ -307,25 +305,21 @@ python3 annotation.py
 
 ## 6. Perform enrichment analysis
 ```bash
-#oligactisとvulgarisで保有に差が見られたオルソログのエンリッチメント解析
-#annotation.tsvからHoli_o_Hv_x.txt, Holi_x_Hv_o.txtを作成する
+# Enrichment analysis of orthologs showing differential presence
+# between H. oligactis and H. vulgaris
+# Generate Holi_o_Hv_x.txt and Holi_x_Hv_o.txt from annotation.tsv
 cd ../Orthofinder_wd
 Rscript enrichment.R
 ```
 
-
 ## 7. Summarize the number of orthogroups per species and per pathway
 ```python
-#作成したannotation.tsvを使って集計する
-#種ごとのGOやKEGGタームのOG数を数える
+# Summarize data using the generated annotation.tsv
+# Count the number of orthogroups associated with GO and KEGG terms for each species
 import pandas as pd
 df = pd.read_csv("annotation.tsv", sep="\t")
 cols = ["Orthogroup", "h_sapiens_gene", "database", "Mmus_present", "Dmelano_present", "Cele_present", "HvAEP_present", "HvJNIG_present", "Hv105_present", "Hv_present", "Ho_present"]
 df = df[cols]
-
-#メモ
-#(df["h_sapiens_gene"] == "").sum()
-#0→遺伝子のアノテーションが無い行は全てNaN
 
 df["Hsapi_present"] = df["h_sapiens_gene"].notna().astype(int)
 
@@ -338,7 +332,7 @@ tmp = tmp.explode("database_term")
 tmp["database_term"] = tmp["database_term"].str.strip()
 tmp = tmp[tmp["database_term"] != ""]
 
-#tmp["database_term"].unique()から得た
+# Obtained from tmp["database_term"].unique()
 terms=['GO:0031012_extracellular_matrix',
 	'chronic_inflammation',
 	'hsa04014_Ras_signaling_pathway',
@@ -407,7 +401,7 @@ terms=['GO:0031012_extracellular_matrix',
 presence_cols = ["Hsapi_present", "Mmus_present", "Dmelano_present", "Cele_present", "HvAEP_present", "HvJNIG_present", "Hv105_present", "Hv_present", "Ho_present"]
 
 
-#各database_termの和を出す
+# Calculate the sum for each database_term
 result = (
     tmp[tmp["database_term"].isin(terms)]
     .groupby("database_term", as_index=False)[presence_cols]
@@ -416,12 +410,12 @@ result = (
 
 result.to_csv("database_term_presence_sums.tsv", sep="\t", index=False)
 
-#種ごとの老化関連遺伝子数を集計
+# Count the number of aging-related genes for each species
 df_sub = df[df["database"].notna()].copy()
 cols = ["Hsapi_present", "Mmus_present", "Dmelano_present", "Cele_present", "HvAEP_present", "HvJNIG_present", "Hv105_present", "Hv_present", "Ho_present"]
 species_sum = df_sub[cols].sum(axis=0)
 
-#メモ：>>> species_sum#
+#Note: >>> species_sum
 Hsapi_present      2057
 Mmus_present       2055
 Dmelano_present    1665
