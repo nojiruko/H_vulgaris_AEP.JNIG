@@ -1,3 +1,4 @@
+#This script conducts enrichment analysis for genes specific to H. vulgaris and H. oligactis.
 # Install ClusterProfiler, ReactomePA, org.Hs.eg.db, STRINGdb and RCy3
 BiocManager::install("clusterProfiler")
 BiocManager::install("ReactomePA")
