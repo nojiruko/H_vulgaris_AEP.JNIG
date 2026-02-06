@@ -1,14 +1,10 @@
 # 3_earlgrey
 
-This document describes a minimal workflow to run **earlgrey** for detecting TEs.
-
----
+This document describes the script used to generate Table 5, Table 6, Supp Fig. 2B and Supp Fig. 2C.
 
 ## Overview
 1. Install EarlGrey
 2. Run EarlGrey
-
----
 
 ## 1. Install EarlGrey
 ```bash
@@ -18,8 +14,8 @@ conda create -n earlgrey -c conda-forge -c bioconda earlgrey=6.3.1
 
 conda activate earlgrey
 
-#earlgreyインストール時にDfamのpartitionを設定する必要がある
-#0(root)と9(metazoa)を選択
+# When installing EarlGrey, it is necessary to specify Dfam partitions.
+# Select partitions 0 (root) and 9 (metazoa).
 ./configure_dfam39.sh
 ```
 
