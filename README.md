@@ -34,3 +34,11 @@ As a result, users will need to modify file paths within the scripts as needed a
 
 > Nanopore and Hi-C sequencing data have been deposited in ***** under accession numbers ***** and *****, respectively.
 > The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
+
+## System requirements
+- R versions ≥
+- Required R packages:
+-   -
+- Python versions ≥
+- Tested on Linux (Ubuntu ***)
+- 
