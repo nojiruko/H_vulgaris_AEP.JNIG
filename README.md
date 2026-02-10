@@ -36,15 +36,47 @@ As a result, users will need to modify file paths within the scripts as needed a
 > The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
 
 ## System requirements
-- mamba (ver. 2.4.0)
-- MCScanX (ver. 1.0.0)
-- OrthoFinder (ver. 2.5.5)
+### System
+- OS: Linux (Ubuntu 22.04.5 LTS)
+- Conda: 24.4.0
+- Mamba: 2.4.0
 
-- R versions ≥ 4.4.2
-- Required R packages:
-  - GENESPACE (ver. 1.2.3)
-  
-- Python versions ≥
-- Required Python packages:
-  - AGAT (ver. 1.5.1)
-- Tested on Linux (Ubuntu ***)
+### Core tools
+- HISAT2: 2.2.1
+- MCScanX: 1.0.0
+- GENESPACE: 1.2.3
+- OrthoFinder: 2.5.5
+- SyRI: 1.7.1
+- minimap2: 2.28-r1209
+- samtools: 1.23
+- bedtools: 2.31.1
+- bedops: 2.4.42
+- gtf2bed: 2.4.42
+- bedGraphToBigWig: 2.10
+- EarlGrey: 6.3.3
+- EDTA: 2.2.2
+- quarTeT: 1.2.5
+- dorado: 0.7.1
+- modkit: 0.4.3
+- bedtools: 2.31.1
+- bedops: 2.4.42
+- gtf2bed: 2.4.42
+
+### R environment
+- R: 4.4.2
+- Packages:
+  - karyoploteR: 1.32.0
+  - GenomicRanges: 1.58.0
+  - rtracklayer: 1.66.0
+  - GenomicFeatures: 1.58.0
+  - BSgenome: 1.74.0
+
+### Python environment
+- Python: 3.9.16
+- Packages:
+  - pandas: 2.2.3
+  - numpy: 1.26.4
+  - matplotlib: 3.9.2
+  - seaborn: 0.13.2
+  - scipy: 1.13.1
+  - AGAT: 1.5.1
