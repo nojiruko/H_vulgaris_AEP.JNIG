@@ -12,14 +12,14 @@ This repository contains markdown documentation for the computational analyses p
 
 Specifically, the following markdown documents contain scripts to reproduce the figures and tables reported in the manuscript:
 
-- **1_genespace.md**: Fig. 2C
-- **2_plotsr.md**: Fig. 2D, Supp Fig. 2A 
-- **3_Earlgrey.md**: Table 5, Table 6, Supp Fig. 2B, Supp Fig. 2C
-- **4_quarTeT.md**: Fig. 2D (annotation track), Fig. 3A (centromere track)
-- **5_karyoplotR.md**: Fig. 3A
-- **6_5mC.md**: Fig. 3A–F, Supp Fig. 3  
-- **7_sprioustranscription.md**: Fig. 3G
-- **8_Orthofinder.md**: Fig. 4, Fig. 5, Supp Table 3, Supp Table 4, Supp Table 5, Supp Table 6, Supp Fig. 4, Supp Fig. 5   
+- **01.md**: Fig. 2C
+- **02.md**: Fig. 2D, Supp Fig. 2A 
+- **03.md**: Table 5, Table 6, Supp Fig. 2B, Supp Fig. 2C
+- **04.md**: Fig. 2D (annotation track), Fig. 3A (centromere track)
+- **05.md**: Fig. 3A
+- **06.md**: Fig. 3A–F, Supp Fig. 3  
+- **07.md**: Fig. 3G
+- **08.md**: Fig. 4, Fig. 5, Supp Table 3, Supp Table 4, Supp Table 5, Supp Table 6, Supp Fig. 4, Supp Fig. 5   
 
 
 The code was originally written to rely on directory/file structures and software path configurations that are specific to the systems on which the analyses were performed.  
