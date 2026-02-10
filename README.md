@@ -5,8 +5,6 @@ This repository contains step-by-step descriptions of all analyses and associate
 > **Kaoruko Nojiri, Koryu Kin, Akimasa Someya, Tetsuo Kon, Koto Kon-Nanjo, Hiroshi Shimizu, Kazuharu Arakawa, and Etsuo A. Susaki**  
 > **Comparative genomics reveals signatures of distinct metabolic strategies and gene loss associated with _Hydra_ immortality**  
 > (in preparation 2026).  
-> doi: ***
-> PMID: ***
 
 ## Structure of this repository
 
@@ -31,18 +29,16 @@ In addition, due to file size limitations, we are not able to host all files req
 As a result, users will need to modify file paths within the scripts as needed and download additional required files from external sources (described below).
 
 ## Accessing additional required files
-
-> Nanopore and Hi-C sequencing data have been deposited in ***** under accession numbers ***** and *****, respectively.
-> The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
+> The genome assembly of H. vulgaris AEP.JNIG has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
 
 ## System requirements
 ```bash
-### System
+# System
 - OS: Linux (Ubuntu 22.04.5 LTS)
 - Conda: 24.4.0
 - Mamba: 2.4.0
 
-### Core tools
+# Core tools
 - HISAT2: 2.2.1
 - MCScanX: 1.0.0
 - GENESPACE: 1.2.3
@@ -63,7 +59,7 @@ As a result, users will need to modify file paths within the scripts as needed a
 - bedops: 2.4.42
 - gtf2bed: 2.4.42
 
-### R environment
+# R environment
 - R: 4.4.2
 - Packages:
   - karyoploteR: 1.32.0
@@ -72,7 +68,7 @@ As a result, users will need to modify file paths within the scripts as needed a
   - GenomicFeatures: 1.58.0
   - BSgenome: 1.74.0
 
-### Python environment
+# Python environment
 - Python: 3.9.16
 - Packages:
   - pandas: 2.2.3
