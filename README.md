@@ -55,9 +55,6 @@ As a result, users will need to modify file paths within the scripts as needed a
 - quarTeT: 1.2.5
 - dorado: 0.7.1
 - modkit: 0.4.3
-- bedtools: 2.31.1
-- bedops: 2.4.42
-- gtf2bed: 2.4.42
 
 # R environment
 - R: 4.4.2
