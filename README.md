@@ -36,6 +36,7 @@ As a result, users will need to modify file paths within the scripts as needed a
 > The genome assembly has been deposited in NCBI with BioProject ID: PRJNA1413991 and BioSample accession: SAMN54890366.
 
 ## System requirements
+```bash
 ### System
 - OS: Linux (Ubuntu 22.04.5 LTS)
 - Conda: 24.4.0
@@ -80,3 +81,4 @@ As a result, users will need to modify file paths within the scripts as needed a
   - seaborn: 0.13.2
   - scipy: 1.13.1
   - AGAT: 1.5.1
+```
