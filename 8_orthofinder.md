@@ -154,7 +154,6 @@ cp /mnt/4e68f331-9abf-401e-87a7-745930b0c5ce/Hydra-hic/braker.gtf ./H_vulgaris_J
 wget https://github.com/josephryan/Ohdera_et_al_2018/blob/master/AA_Files/Ccrux.Trinity.faa.gz && gunzip Ccrux.Trinity.faa.gz 
 mamba install -c bioconda -y cd-hit
 cd-hit -i ./Ccrux.Trinity.faa -o C_cruxmelitensis.aa -c 0.95
-#calvadosiaはinputから削除した
 ```
 
 ## 2. Generate proteomes from genome sequences
